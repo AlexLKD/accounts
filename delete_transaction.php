@@ -12,13 +12,20 @@ if (!(array_key_exists('HTTP_REFERER', $_SERVER)) && str_contains($_SERVER['HTTP
 }
 
 
+// Check if the 'delete' parameter is set in the URL
 if (isset($_GET['delete'])) {
+    // Get the 'dealId' from the URL parameter
     $dealId = $_GET['delete'];
+
+    // Prepare a SQL query to delete the transaction with the specified 'dealId'
     $query = $dbCo->prepare("DELETE FROM transaction WHERE id_transaction = :dealId");
+
+    // Execute the query by binding the 'dealId' parameter  
     $isOk = $query->execute([
         ':dealId' => intval(strip_tags($dealId))
     ]);
-    // message if task is deleted or not
-    header('Location: index.php?msg=' . ($isOk ? 'La tâche a été supprimée' : 'La tâche n\'a pas pu être supprimée'));
-    exit;
+
+    // Redirect to the index.php page with a message
+    header('Location: index.php?msg=' . ($isOk ? 'The task has been deleted.' : 'The task could not be deleted.'));
+    exit; // Terminate the script to prevent further execution
 }

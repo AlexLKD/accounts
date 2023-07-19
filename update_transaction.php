@@ -10,25 +10,27 @@ if (!(array_key_exists('HTTP_REFERER', $_SERVER)) && str_contains($_SERVER['HTTP
     header('Location: index.php?msg=error_csrf');
     exit;
 }
-
+// Check if the request method is POST
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    if (isset($_POST['token']) && $_POST['token'] === $_SESSION['token']) {
-        $transactionId = $_POST['update'];
-        $name = $_POST['name'];
-        $date = $_POST['date'];
-        $amount = $_POST['amount'];
-        $category = $_POST['category'];
+    // Get the values from the form
+    $transactionId = $_POST['update'];
+    $name = $_POST['name'];
+    $date = $_POST['date'];
+    $amount = $_POST['amount'];
+    $category = $_POST['category'];
 
-        $query = $dbCo->prepare("UPDATE transaction SET name = :name, date_transaction = :date, amount = :amount, id_category = :category WHERE id_transaction = :transactionId");
-        $isOk = $query->execute([
-            ':transactionId' => $transactionId,
-            ':name' => strip_tags($name),
-            ':date' => $date,
-            ':amount' => floatval(strip_tags($amount)),
-            ':category' => $category
-        ]);
-        header('Location: index.php?update_msg=' . ($isOk ? 'Transaction mise à jour avec succès.' : 'Une erreur s\'est produite lors de la mise à jour de la transaction.'));
-    } else {
-        echo "Token CSRF invalide. Soumission de formulaire invalide.";
-    }
+    // Prepare a SQL query to update the transaction
+    $query = $dbCo->prepare("UPDATE transaction SET name = :name, date_transaction = :date, amount = :amount, id_category = :category WHERE id_transaction = :transactionId");
+
+    // Execute the query by binding the parameters with the form values
+    $isOk = $query->execute([
+        ':transactionId' => $transactionId,
+        ':name' => strip_tags($name), // Strip any HTML tags from the name
+        ':date' => $date,
+        ':amount' => floatval(strip_tags($amount)), // Convert the amount to a float after stripping any HTML tags
+        ':category' => $category
+    ]);
+
+    // Redirect to the index.php page with a message
+    header('Location: index.php?update_msg=' . ($isOk ? 'Transaction updated successfully.' : 'An error occurred while updating the transaction.'));
 }

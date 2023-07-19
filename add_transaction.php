@@ -10,23 +10,25 @@ if (!(array_key_exists('HTTP_REFERER', $_SERVER)) && str_contains($_SERVER['HTTP
     header('Location: index.php?msg=error_csrf');
     exit;
 }
-
+// Check if the request method is POST
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    if (isset($_POST['token']) && $_POST['token'] === $_SESSION['token']) {
-        $name = $_POST['name'];
-        $date = $_POST['date'];
-        $amount = $_POST['amount'];
-        $category = $_POST['category'];
+    // Get the values from the form
+    $name = $_POST['name'];
+    $date = $_POST['date'];
+    $amount = $_POST['amount'];
+    $category = $_POST['category'];
 
-        $query = $dbCo->prepare("INSERT INTO transaction (name, date_transaction, amount, id_category) VALUES (:name, :date, :amount, :categoryId)");
-        $isOk = $query->execute([
-            ':name' => strip_tags($name),
-            ':date' => $date,
-            ':amount' => floatval(strip_tags($amount)),
-            ':categoryId' => $category
-        ]);
-        header('Location: add.php?transac_msg=' . ($isOk ? 'Transaction ajoutée avec succès.' : 'Une erreur s\'est produite lors de l\'enregistrement de la transaction.'));
-    } else {
-        echo "Token CSRF invalide. Soumission de formulaire invalide.";
-    }
+    // Prepare a SQL query to insert a new transaction
+    $query = $dbCo->prepare("INSERT INTO transaction (name, date_transaction, amount, id_category) VALUES (:name, :date, :amount, :categoryId)");
+
+    // Execute the query by binding the parameters with the form values
+    $isOk = $query->execute([
+        ':name' => strip_tags($name), // Strip any HTML tags from the name
+        ':date' => $date,
+        ':amount' => floatval(strip_tags($amount)), // Convert the amount to a float after stripping any HTML tags
+        ':categoryId' => $category
+    ]);
+
+    // Redirect to the add.php page with a success or error message
+    header('Location: add.php?transac_msg=' . ($isOk ? 'Transaction added successfully.' : 'An error occurred while saving the transaction.'));
 }
