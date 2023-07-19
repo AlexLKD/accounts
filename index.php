@@ -61,7 +61,7 @@ require 'includes/_header.php'
                         echo '</span>';
                         echo '</td>';
                         echo '<td class="text-end text-nowrap">';
-                        echo '<div id="update-form" class="card-body">
+                        echo '<div id="update-form" class="">
                         <form action="update_transaction.php" method="POST" id="update-form" class="update-form form-submit" data-form-id="' . $result['id_transaction'] . '?>" >
                                 <div class="mb-3">
                                     <label for="name" class="form-label">Nom de l\'opération *</label>
@@ -94,9 +94,10 @@ require 'includes/_header.php'
                                         <option value="7">Cadeaux</option>
                                     </select>
                                 </div>
-                                <div class="text-center">
-                                <button type="submit" class="btn btn-primary btn-lg" data-deal-id="' . $result['id_transaction'] . '?>">Mettre à jour</button>
-                                </div>
+                                <button type="button" class="btn btn-outline-primary btn-sm rounded-circle edit-button" data-target="update-form">
+                                <i class="bi bi-pencil"></i>
+                            </button>
+                            
                             </form>
                         </div>';
                         echo '<button type="button" class="btn btn-outline-primary btn-sm rounded-circle edit-button" data-deal-id="hidden" data-target="update-form">';
@@ -125,7 +126,6 @@ require 'includes/_header.php'
         <i class="bi bi-plus fs-1"></i>
     </a>
 </div>
-
 <?php
 require 'includes/_footer.php'
 ?>

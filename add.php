@@ -22,7 +22,7 @@ require 'includes/_header.php'
                 <div class="mb-3">
                     <label for="name" class="form-label">Nom de l'opération *</label>
                     <input type="hidden" name="token" value="<?= $_SESSION['token'] ?? '' ?>" id="token-csrf">
-                    <input type="text" class="form-control" name="name" id="name" placeholder="Facture d'électricité" required>
+                    <input type="text" class="form-control" name="name" id="name" placeholder="Opération" required>
                 </div>
                 <div class="mb-3">
                     <label for="date" class="form-label">Date *</label>
@@ -48,6 +48,9 @@ require 'includes/_header.php'
                         <option value="6">Habitat</option>
                         <option value="7">Cadeaux</option>
                     </select>
+                </div>
+                <div class="text-center">
+                    <button type="button" class="btn btn-secondary btn-lg" id="add-category-btn">Ajouter une catégorie</button>
                 </div>
                 <div class="text-center">
                     <button type="submit" class="btn btn-primary btn-lg">Ajouter</button>
