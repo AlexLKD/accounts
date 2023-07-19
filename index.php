@@ -38,7 +38,7 @@ require 'includes/_header.php'
                 </thead>
                 <tbody>
                     <?php
-                    $query = $dbCo->prepare("SELECT name, id_transaction, amount, date_transaction, id_category, icon_class FROM transaction LEFT JOIN category USING (id_category) WHERE date_transaction LIKE '2023-07-%' ORDER BY date_transaction DESC");
+                    $query = $dbCo->prepare("SELECT name, id_transaction, amount, date_transaction, id_category, icon_class FROM transaction LEFT JOIN category USING (id_category) WHERE MONTH(date_transaction) = MONTH(now()) ORDER BY date_transaction DESC");
                     $query->execute();
                     $results = $query->fetchAll();
                     foreach ($results as $result) {
@@ -62,7 +62,7 @@ require 'includes/_header.php'
                         echo '</td>';
                         echo '<td class="text-end text-nowrap">';
                         echo '<div id="update-form" class="card-body">
-                        <form action="update.php" method="POST" id="update-form" class="update-form form-submit" data-form-id="' . $result['id_transaction'] . '?>" >
+                        <form action="update_transaction.php" method="POST" id="update-form" class="update-form form-submit" data-form-id="' . $result['id_transaction'] . '?>" >
                                 <div class="mb-3">
                                     <label for="name" class="form-label">Nom de l\'opération *</label>
                                     <input type="hidden" name="token" value="' . $_SESSION['token'] . '" id="token-csrf">
@@ -103,7 +103,7 @@ require 'includes/_header.php'
                         echo '<i class="bi bi-pencil"></i>';
                         echo '</button>';
                         echo '<button type="button" class="btn btn-danger btn-sm rounded-circle" name="delete" value ="' . $result['id_transaction'] . '">
-                        <a href="delete.php?delete=' . $result['id_transaction'] . '&token=' . $_SESSION['token'] . '" class="delete-link"><i class="bi bi-trash"></i></a>';
+                        <a href="delete_transaction.php?delete=' . $result['id_transaction'] . '&token=' . $_SESSION['token'] . '" class="delete-link"><i class="bi bi-trash"></i></a>';
                         echo '</button>';
                         echo '</td>';
                         echo '</tr>';
