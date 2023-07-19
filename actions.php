@@ -10,3 +10,23 @@ if (!(array_key_exists('HTTP_REFERER', $_SERVER)) && str_contains($_SERVER['HTTP
     header('Location: index.php?msg=error_csrf');
     exit;
 }
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    if (isset($_POST['token']) && $_POST['token'] === $_SESSION['token']) {
+        $name = $_POST['name'];
+        $date = $_POST['date'];
+        $amount = $_POST['amount'];
+        $category = $_POST['category'];
+
+        $query = $dbCo->prepare("INSERT INTO transaction (name, date_transaction, amount, id_category) VALUES (:name, :date, :amount, :categoryId)");
+        $isOk = $query->execute([
+            ':name' => $name,
+            ':date' => $date,
+            ':amount' => $amount,
+            ':categoryId' => $category
+        ]);
+        header('Location: add.php?transac_msg=' . ($isOk ? 'Transaction ajoutée avec succès.' : 'Une erreur s\'est produite lors de l\'enregistrement de la transaction.'));
+    } else {
+        echo "Token CSRF invalide. Soumission de formulaire invalide.";
+    }
+}

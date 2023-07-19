@@ -27,25 +27,13 @@ $_SESSION['token'] = md5(uniqid(mt_rand(), true));
                 <h2 class="my-0 fw-normal fs-4">Solde aujourd'hui</h2>
             </div>
             <?php
-            // $query = $dbCo->prepare("SELECT country, name, description FROM languages");
-            // $query->execute();
-            // $languages = $query->fetchAll();
-            $query = $dbCo->prepare("SELECT name, amount, date_transaction FROM transaction");
-            $query->execute();
-            $results = $query->fetchAll();
-            // var_dump($result);
-
-            $total = 0;
-            foreach ($results as $result) {
-                if (str_contains($result['amount'], "-")) {
-                    $total -= $result['amount'];
-                } else {
-                    $total += $result['amount'];
-                }
-            }
-
+            // Récupérer le total des montants depuis la base de données
+            $query = $dbCo->prepare("SELECT SUM(CASE WHEN amount >= 0 THEN amount ELSE 0 END) - SUM(CASE WHEN amount < 0 THEN -amount ELSE 0 END) AS total FROM transaction");
+            $isOk = $query->execute();
+            $result = $query->fetch();
+            $totalAmount = $result['total'];
             echo '            <div class="card-body">
-            <p class="card-title pricing-card-title text-center fs-1">' . $total . ' €</p>
+            <p class="card-title pricing-card-title text-center fs-1">' . $totalAmount . ' €</p>
         </div>';
             ?>
 
@@ -53,7 +41,7 @@ $_SESSION['token'] = md5(uniqid(mt_rand(), true));
 
         <section class="card mb-4 rounded-3 shadow-sm">
             <div class="card-header py-3">
-                <h1 class="my-0 fw-normal fs-4">Opérations de Juillet 2023</h1>
+                <h1 class="my-0 fw-normal fs-4">Opérations de <?= date("F Y") ?></h1>
             </div>
             <div class="card-body">
                 <table class="table table-striped table-hover align-middle">
@@ -84,7 +72,7 @@ $_SESSION['token'] = md5(uniqid(mt_rand(), true));
                                 echo $result['amount'];
                             } else {
                                 echo '<span class="rounded-pill text-nowrap bg-success-subtle px-2">';
-                                echo $result['amount'];
+                                echo '+' . $result['amount'];
                             }
                             echo '</span>';
                             echo '</td>';
@@ -98,8 +86,6 @@ $_SESSION['token'] = md5(uniqid(mt_rand(), true));
                             echo '</td>';
                             echo '</tr>';
                         };
-
-                        // var_dump($result);
                         ?>
                     </tbody>
                 </table>

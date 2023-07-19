@@ -1,3 +1,9 @@
+<?php
+require 'includes/_database.php';
+session_start();
+$_SESSION['token'] = md5(uniqid(mt_rand(), true));
+
+?>
 <!DOCTYPE html>
 <html lang="fr">
 
@@ -22,7 +28,7 @@
                 <h1 class="my-0 fw-normal fs-4">Ajouter une opération</h1>
             </div>
             <div class="card-body">
-                <form>
+                <form action="actions.php" method="POST" class="form-submit">
                     <div class="mb-3">
                         <label for="name" class="form-label">Nom de l'opération *</label>
                         <input type="hidden" name="token" value="<?= $_SESSION['token'] ?? '' ?>" id="token-csrf">
@@ -30,7 +36,6 @@
                     </div>
                     <div class="mb-3">
                         <label for="date" class="form-label">Date *</label>
-                        <input type="hidden" name="token" value="<?= $_SESSION['token'] ?? '' ?>" id="token-csrf">
                         <input type="date" class="form-control" name="date" id="date" required>
                     </div>
                     <div class="mb-3">
@@ -41,7 +46,6 @@
                             <span class="input-group-text">€</span>
                         </div>
                     </div>
-
                     <div class="mb-3">
                         <label for="category" class="form-label">Catégorie</label>
                         <select class="form-select" name="category" id="category">
@@ -55,6 +59,11 @@
                             <option value="7">Cadeaux</option>
                         </select>
                     </div>
+                    <?php
+                    if (array_key_exists('transac_msg', $_GET)) {
+                        echo '<p class="task-info">' . $_GET['transac_msg'] . '</p>';
+                    }
+                    ?>
                     <div class="text-center">
                         <button type="submit" class="btn btn-primary btn-lg">Ajouter</button>
                     </div>
