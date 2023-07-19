@@ -1,10 +1,11 @@
-// document.addEventListener("DOMContentLoaded", function () {
-//     const updateForm = document.getElementById("update-form");
-//     const editButton = document.querySelector(
-//         '.edit-button[data-target="update-form"]'
-//     );
-
-//     editButton.addEventListener("click", function () {
-//         updateForm.classList.toggle("d-none");
+// function enableEdit(taskId) {
+//     const form = document.getElementById("update-form" + taskId);
+//     form.classList.remove("d-none");
+// }
+// const btn = document.querySelectorAll(".edit-button");
+// btn.forEach((button) => {
+//     button.addEventListener("click", function () {
+//         const taskId = this.getAttribute("data-task-id");
+//         enableEdit(taskId);
 //     });
 // });
