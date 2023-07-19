@@ -30,11 +30,25 @@ $_SESSION['token'] = md5(uniqid(mt_rand(), true));
             // $query = $dbCo->prepare("SELECT country, name, description FROM languages");
             // $query->execute();
             // $languages = $query->fetchAll();
-            $query = $dbCo->prepare("SELECT ")
+            $query = $dbCo->prepare("SELECT name, amount, date_transaction FROM transaction");
+            $query->execute();
+            $results = $query->fetchAll();
+            // var_dump($result);
+
+            $total = 0;
+            foreach ($results as $result) {
+                if (str_contains($result['amount'], "-")) {
+                    $total -= $result['amount'];
+                } else {
+                    $total += $result['amount'];
+                }
+            }
+
+            echo '            <div class="card-body">
+            <p class="card-title pricing-card-title text-center fs-1">' . $total . ' €</p>
+        </div>';
             ?>
-            <div class="card-body">
-                <p class="card-title pricing-card-title text-center fs-1">625,34 €</p>
-            </div>
+
         </section>
 
         <section class="card mb-4 rounded-3 shadow-sm">
