@@ -30,38 +30,3 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo "Token CSRF invalide. Soumission de formulaire invalide.";
     }
 }
-
-
-// Récupérer les données du formulaire
-$operationId = $_POST['operation_id'];
-$name = $_POST['name'];
-$date = $_POST['date'];
-$amount = $_POST['amount'];
-$category = $_POST['category'];
-
-// Vérifier si le montant est négatif
-if (substr($amount, 0, 1) === '-') {
-    // Si le montant est négatif, enlever le signe '-' pour l'enregistrement en base de données
-    $amount = substr($amount, 1);
-} else {
-    // Si le montant est positif, ajouter le signe '-' pour l'enregistrement en base de données
-    $amount = '-' . $amount;
-}
-
-// Requête SQL pour mettre à jour l'opération dans la base de données
-$query = $dbCo->prepare("UPDATE transaction SET name = :name, date_transaction = :date, amount = :amount, id_category = :category WHERE id = :operationId");
-$isOk = $query->execute([
-    ':name' => $name,
-    ':date' => $date,
-    ':amount' => $amount,
-    ':category' => $category,
-    ':operationId' => $operationId
-]);
-
-if ($isOk) {
-    // La mise à jour a réussi
-    echo "L'opération a été mise à jour avec succès.";
-} else {
-    // La mise à jour a échoué
-    echo "Erreur lors de la mise à jour de l'opération.";
-}
