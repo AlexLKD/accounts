@@ -65,8 +65,13 @@ $_SESSION['token'] = md5(uniqid(mt_rand(), true));
                             echo $result['name'];
                             echo '</td>';
                             echo '<td class="text-end">';
-                            echo '<span class="rounded-pill text-nowrap bg-warning-subtle px-2">';
-                            echo $result['amount'];
+                            if (str_contains($result['amount'], "-")) {
+                                echo '<span class="rounded-pill text-nowrap bg-warning-subtle px-2">';
+                                echo $result['amount'];
+                            } else {
+                                echo '<span class="rounded-pill text-nowrap bg-success-subtle px-2">';
+                                echo $result['amount'];
+                            }
                             echo '</span>';
                             echo '</td>';
                             echo '<td class="text-end text-nowrap">';
