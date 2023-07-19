@@ -12,38 +12,9 @@
 
 <body>
 
-    <div class="container-fluid">
-        <header class="row flex-wrap justify-content-between align-items-center p-3 mb-4 border-bottom">
-            <a href="index.html" class="col-1">
-                <i class="bi bi-piggy-bank-fill text-primary fs-1"></i>
-            </a>
-            <nav class="col-11 col-md-7">
-                <ul class="nav">
-                    <li class="nav-item">
-                        <a href="index.html" class="nav-link link-body-emphasis" aria-current="page">Opérations</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="summary.html" class="nav-link link-body-emphasis">Synthèses</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="categories.html" class="nav-link link-secondary">Catégories</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="import.html" class="nav-link link-body-emphasis">Importer</a>
-                    </li>
-                </ul>
-            </nav>
-            <form action="" class="col-12 col-md-4" role="search">
-                <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Rechercher..."
-                        aria-describedby="button-search">
-                    <button class="btn btn-primary" type="submit" id="button-search">
-                        <i class="bi bi-search"></i>
-                    </button>
-                </div>
-            </form>
-        </header>
-    </div>
+    <?php
+    require 'includes/_header.php'
+    ?>
 
     <div class="container">
         <section class="card mb-4 rounded-3 shadow-sm">
@@ -132,10 +103,12 @@
                 <form class="row align-items-end">
                     <div class="col col-md-5">
                         <label for="name" class="form-label">Nom *</label>
+                        <input type="hidden" name="token" value="<?= $_SESSION['token'] ?? '' ?>" id="token-csrf">
                         <input type="email" class="form-control" name="name" id="name" required>
                     </div>
                     <div class="col-md-5">
                         <label for="icon" class="form-label">Classe icone bootstrap *</label>
+                        <input type="hidden" name="token" value="<?= $_SESSION['token'] ?? '' ?>" id="token-csrf">
                         <input type="text" class="form-control" name="icon" id="icon" required>
                     </div>
                     <div class="col col-md-2 text-center text-md-end mt-3 mt-md-0">
@@ -151,12 +124,9 @@
             <i class="bi bi-plus fs-1"></i>
         </a>
     </div>
-
-    <footer class="py-3 mt-4 border-top">
-        <p class="text-center text-body-secondary">© 2023 Mes comptes</p>
-    </footer>
-
-
+    <?php
+    require 'includes/_footer.php'
+    ?>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
