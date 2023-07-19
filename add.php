@@ -49,7 +49,7 @@ $_SESSION['token'] = md5(uniqid(mt_rand(), true));
                     <div class="mb-3">
                         <label for="category" class="form-label">Catégorie</label>
                         <select class="form-select" name="category" id="category">
-                            <option value="" selected>Aucune catégorie</option>
+                            <option value="0" selected>Aucune catégorie</option>
                             <option value="1">Nourriture</option>
                             <option value="2">Loisir</option>
                             <option value="3">Travail</option>
