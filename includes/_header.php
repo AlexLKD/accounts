@@ -21,25 +21,8 @@ $title = getCurrentPageTitle($pages);
             <a href="index.php" class="col-1">
                 <i class="bi bi-piggy-bank-fill text-primary fs-1"></i>
             </a>
-            <nav class="col-11 col-md-7">
-                <ul class="nav">
-                    <li class="nav-item">
-                        <a href="index.php" class="nav-link link-body-emphasis" aria-current="page">Opérations</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="summary.php" class="nav-link link-body-emphasis">Synthèses</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="categories.php" class="nav-link link-body-emphasis">Catégories</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="import.php" class="nav-link link-body-emphasis">Importer</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="add.php" class="nav-link link-body-emphasis">Ajouter</a>
-                    </li>
-                </ul>
-            </nav>
+            <?= createMenu($pages, basename($_SERVER['PHP_SELF'])) ?>
+
             <form action="" class="col-12 col-md-4" role="search">
                 <div class="input-group">
                     <input type="text" class="form-control" placeholder="Rechercher..." aria-describedby="button-search">
