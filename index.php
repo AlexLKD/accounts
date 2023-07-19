@@ -46,7 +46,7 @@ require 'includes/_header.php'
                         echo '<td width="50" class="ps-3">';
                         echo '<i class="bi bi-' . $result['icon_class'] . ' fs-3"></i>';
                         echo '</td>';
-                        echo '<td>';
+                        echo '<td id="dealText">';
                         echo '<time datetime="' . $result['date_transaction'] . '" class="d-block fst-italic fw-light">' . $result['date_transaction'] . '</time>';
                         echo $result['name'];
                         echo '</td>';
@@ -61,44 +61,62 @@ require 'includes/_header.php'
                         echo '</span>';
                         echo '</td>';
                         echo '<td class="text-end text-nowrap">';
-                        echo '<button type="button" class="btn btn-outline-primary btn-sm rounded-circle" >';
+                        echo '<div id="update-form" class="card-body">
+                        <form action="update.php" method="POST" id="update-form" class="update-form form-submit" data-form-id="' . $result['id_transaction'] . '?>" >
+                                <div class="mb-3">
+                                    <label for="name" class="form-label">Nom de l\'opération *</label>
+                                    <input type="hidden" name="token" value="' . $_SESSION['token'] . '" id="token-csrf">
+                                    <input type="hidden" name="update" value="' . $result['id_transaction'] . '">
+                                    <input type="text" class="form-control" name="name" id="name" placeholder="' . $result['name'] . '" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="date" class="form-label">Date *</label>
+                                    <input type="date" class="form-control" name="date" id="date" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="amount" class="form-label">Montant *</label>
+                                    <div class="input-group">
+                                        <input type="hidden" name="token" value="' . $_SESSION['token'] . '" id="token-csrf">
+                                        <input type="text" class="form-control" name="amount" id="amount" required>
+                                        <span class="input-group-text">€</span>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="category" class="form-label">Catégorie</label>
+                                    <select class="form-select" name="category" id="category">
+                                        <option value="0" selected>Aucune catégorie</option>
+                                        <option value="1">Nourriture</option>
+                                        <option value="2">Loisir</option>
+                                        <option value="3">Travail</option>
+                                        <option value="4">Voyage</option>
+                                        <option value="5">Sport</option>
+                                        <option value="6">Habitat</option>
+                                        <option value="7">Cadeaux</option>
+                                    </select>
+                                </div>
+                                <div class="text-center">
+                                <button type="submit" class="btn btn-primary btn-lg" data-deal-id="' . $result['id_transaction'] . '?>">Mettre à jour</button>
+                                </div>
+                            </form>
+                        </div>';
+                        echo '<button type="button" class="btn btn-outline-primary btn-sm rounded-circle edit-button" data-deal-id="hidden" data-target="update-form">';
                         echo '<i class="bi bi-pencil"></i>';
                         echo '</button>';
-                        echo '<button type="button" class="btn btn-outline-danger btn-sm rounded-circle">';
-                        echo '<i class="bi bi-trash"></i>';
+                        echo '<button type="button" class="btn btn-danger btn-sm rounded-circle" name="delete" value ="' . $result['id_transaction'] . '">
+                        <a href="delete.php?delete=' . $result['id_transaction'] . '&token=' . $_SESSION['token'] . '" class="delete-link"><i class="bi bi-trash"></i></a>';
                         echo '</button>';
                         echo '</td>';
                         echo '</tr>';
                     };
                     ?>
+                    <!-- <button type="submit" class="delete-button button" name="delete" value="' . $task['Id_task'] . '"> -->
+                    <!-- </button> -->
                 </tbody>
             </table>
         </div>
-        <div class="card-footer">
-            <nav class="text-center">
-                <ul class="pagination d-flex justify-content-center m-2">
-                    <li class="page-item disabled">
-                        <span class="page-link">
-                            <i class="bi bi-arrow-left"></i>
-                        </span>
-                    </li>
-                    <li class="page-item active" aria-current="page">
-                        <span class="page-link">Juillet 2023</span>
-                    </li>
-                    <li class="page-item">
-                        <a class="page-link" href="index.html">Juin 2023</a>
-                    </li>
-                    <li class="page-item">
-                        <span class="page-link">...</span>
-                    </li>
-                    <li class="page-item">
-                        <a class="page-link" href="index.html">
-                            <i class="bi bi-arrow-right"></i>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
-        </div>
+        <?php
+        require 'includes/_pagination.php'
+        ?>
     </section>
 </div>
 

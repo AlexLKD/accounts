@@ -18,7 +18,7 @@ require 'includes/_header.php'
         }
         ?>
         <div class="card-body">
-            <form action="actions.php" method="POST" class="form-submit">
+            <form action="addtransaction.php" method="POST" class="form-submit">
                 <div class="mb-3">
                     <label for="name" class="form-label">Nom de l'opération *</label>
                     <input type="hidden" name="token" value="<?= $_SESSION['token'] ?? '' ?>" id="token-csrf">
